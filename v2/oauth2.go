@@ -64,7 +64,6 @@ func NewAuthorizerV2(accessToken, refreshToken, clientID, clientSecret string, c
 	return auth
 }
 
-
 // Add implements the Authorizer interface and automatically refreshes tokens when needed
 // If no refresh token is available, works like simple bearer auth
 func (o *AuthorizerV2) Add(req *http.Request) {
