@@ -41,6 +41,8 @@ const (
 	userRetweetLookupMaxResults                     = 100
 	userTweetReverseChronologicalTimelineMinResults = 1
 	userTweetReverseChronologicalTimelineMaxResults = 100
+	dmEventMaxResults                               = 100
+	dmConversationMaxResults                        = 100
 )
 
 // Client is used to make twitter v2 API callouts.
