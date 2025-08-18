@@ -41,6 +41,7 @@ const (
 	userRetweetLookupMaxResults                     = 100
 	userTweetReverseChronologicalTimelineMinResults = 1
 	userTweetReverseChronologicalTimelineMaxResults = 100
+	mediaUploadMaxSize                              = 5 * 1024 * 1024
 )
 
 // Client is used to make twitter v2 API callouts.
