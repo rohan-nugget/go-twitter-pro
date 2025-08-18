@@ -42,6 +42,8 @@ const (
 	userTweetReverseChronologicalTimelineMinResults = 1
 	userTweetReverseChronologicalTimelineMaxResults = 100
 	mediaUploadMaxSize                              = 5 * 1024 * 1024
+	dmEventMaxResults                               = 100
+	dmConversationMaxResults                        = 100
 )
 
 // Client is used to make twitter v2 API callouts.

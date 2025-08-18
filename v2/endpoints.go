@@ -54,8 +54,14 @@ const (
 	quoteTweetLookupEndpoint                      endpoint = "2/tweets/{id}/quote_tweets"
 	tweetBookmarksEndpoint                        endpoint = "2/users/{id}/bookmarks"
 	mediaUploadEndpoint                           endpoint = "2/media/upload"
+	dmConversationsEndpoint                       endpoint = "2/dm_conversations"
+	dmConversationsByParticipantEndpoint          endpoint = "2/dm_conversations/by/participant_id/{participant_id}"
+	dmEventsEndpoint                              endpoint = "2/dm_events"
+	dmConversationEventsEndpoint                  endpoint = "2/dm_conversations/{id}/dm_events"
+	dmConversationCreateEndpoint                  endpoint = "2/dm_conversations"
 
-	idTag = "{id}"
+	idTag           = "{id}"
+	participantTag  = "{participant_id}"
 )
 
 func (e endpoint) url(host string) string {
@@ -65,4 +71,9 @@ func (e endpoint) url(host string) string {
 func (e endpoint) urlID(host, id string) string {
 	u := fmt.Sprintf("%s/%s", host, string(e))
 	return strings.ReplaceAll(u, idTag, id)
+}
+
+func (e endpoint) urlParticipantID(host, participantID string) string {
+	u := fmt.Sprintf("%s/%s", host, string(e))
+	return strings.ReplaceAll(u, participantTag, participantID)
 }
