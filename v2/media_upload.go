@@ -22,6 +22,16 @@ const (
 	MediaCategorySubtitles MediaCategory = "subtitles"
 )
 
+// Media upload size limits (based on Twitter API documentation)
+const (
+	// MediaImageMaxSize is the maximum size for image uploads (25MB)
+	MediaImageMaxSize = 25 * 1024 * 1024
+	// MediaVideoMaxSize is the maximum size for video uploads (512MB)
+	MediaVideoMaxSize = 512 * 1024 * 1024
+	// MediaGifMaxSize is the maximum size for GIF uploads (15MB)
+	MediaGifMaxSize = 15 * 1024 * 1024
+)
+
 // MediaType represents supported media types
 type MediaType string
 

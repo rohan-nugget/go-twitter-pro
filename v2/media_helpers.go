@@ -1,5 +1,7 @@
 package twitter
 
+import "strings"
+
 // GetBestMediaURL determines the best URL for media based on type and available variants
 // This is a public helper function for external use
 func GetBestMediaURL(media *MediaObj) string {
@@ -166,5 +168,39 @@ func getQualityLabel(bitRate int) string {
 		return "360p"
 	default:
 		return "240p"
+	}
+}
+
+// DetectMediaTypeFromMime maps common MIME types to Twitter MediaType constants
+// This is a public helper function for media upload operations
+func DetectMediaTypeFromMime(mimeType string) MediaType {
+	if mimeType == "" {
+		return ""
+	}
+
+	// Normalize MIME type to lowercase for comparison
+	mimeType = strings.ToLower(strings.TrimSpace(mimeType))
+
+	// Map common MIME types to Twitter MediaType constants
+	switch {
+	case strings.HasPrefix(mimeType, "image/jpeg") || mimeType == "image/jpg":
+		return MediaTypeImageJPEG
+	case strings.HasPrefix(mimeType, "image/png"):
+		return MediaTypeImagePNG
+	case strings.HasPrefix(mimeType, "image/webp"):
+		return MediaTypeImageWebP
+	case strings.HasPrefix(mimeType, "image/bmp"):
+		return MediaTypeImageBMP
+	case strings.HasPrefix(mimeType, "image/tiff") || strings.HasPrefix(mimeType, "image/tif"):
+		return MediaTypeImageTIFF
+	case strings.HasPrefix(mimeType, "video/mp4"):
+		// Video uploads typically don't need explicit media_type for Twitter v2 API
+		return ""
+	case strings.HasPrefix(mimeType, "image/gif"):
+		// GIFs are treated as images, use JPEG as fallback since Twitter processes them
+		return MediaTypeImageJPEG
+	default:
+		// Return empty string for unsupported types
+		return ""
 	}
 }
