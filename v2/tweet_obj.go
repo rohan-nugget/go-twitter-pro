@@ -44,6 +44,16 @@ const (
 	TweetFieldWithHeld TweetField = "withheld"
 	// TweetFieldNoteTweet contains the full text of long-form tweets (Twitter Notes)
 	TweetFieldNoteTweet TweetField = "note_tweet"
+	// Additional X API v2 tweet fields
+	TweetFieldArticle             TweetField = "article"
+	TweetFieldCardURI             TweetField = "card_uri"
+	TweetFieldCommunityID         TweetField = "community_id"
+	TweetFieldDisplayTextRange    TweetField = "display_text_range"
+	TweetFieldEditControls        TweetField = "edit_controls"
+	TweetFieldEditHistoryTweetIDs TweetField = "edit_history_tweet_ids"
+	TweetFieldMediaMetadata       TweetField = "media_metadata"
+	TweetFieldReplySettings       TweetField = "reply_settings"
+	TweetFieldScopes              TweetField = "scopes"
 )
 
 func tweetFieldStringArray(arr []TweetField) []string {
@@ -128,6 +138,6 @@ type TweetReferencedTweetObj struct {
 
 // NoteTweetObj contains the full text of long-form tweets (Twitter Notes)
 type NoteTweetObj struct {
-	Text     string            `json:"text"`
-	Entities *EntitiesObj      `json:"entities,omitempty"`
+	Text     string       `json:"text"`
+	Entities *EntitiesObj `json:"entities,omitempty"`
 }

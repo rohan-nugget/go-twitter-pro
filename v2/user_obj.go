@@ -32,6 +32,19 @@ const (
 	UserFieldVerified UserField = "verified"
 	// UserFieldWithHeld contains withholding details
 	UserFieldWithHeld UserField = "withheld"
+	// Additional X API v2 user fields
+	UserFieldAffiliation           UserField = "affiliation"
+	UserFieldConfirmedEmail        UserField = "confirmed_email"
+	UserFieldConnectionStatus      UserField = "connection_status"
+	UserFieldIsIdentityVerified    UserField = "is_identity_verified"
+	UserFieldMostRecentTweetID     UserField = "most_recent_tweet_id"
+	UserFieldParody                UserField = "parody"
+	UserFieldProfileBannerURL      UserField = "profile_banner_url"
+	UserFieldReceivesYourDM        UserField = "receives_your_dm"
+	UserFieldSubscription          UserField = "subscription"
+	UserFieldSubscriptionType      UserField = "subscription_type"
+	UserFieldVerifiedFollowersCount UserField = "verified_followers_count"
+	UserFieldVerifiedType          UserField = "verified_type"
 )
 
 func userFieldStringArray(arr []UserField) []string {

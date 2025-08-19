@@ -6,22 +6,22 @@ import "time"
 type DMEventType string
 
 const (
-	MessageCreate         DMEventType = "MessageCreate"
-	ParticipantsJoin      DMEventType = "ParticipantsJoin" 
-	ParticipantsLeave     DMEventType = "ParticipantsLeave"
+	MessageCreate     DMEventType = "MessageCreate"
+	ParticipantsJoin  DMEventType = "ParticipantsJoin"
+	ParticipantsLeave DMEventType = "ParticipantsLeave"
 )
 
 // DMEvent represents a direct message event
 type DMEvent struct {
-	ID                 string              `json:"id"`
-	Text               string              `json:"text,omitempty"`
-	EventType          string              `json:"event_type"`
-	CreatedAt          time.Time           `json:"created_at,omitempty"`
-	SenderID           string              `json:"sender_id,omitempty"`
-	DMConversationID   string              `json:"dm_conversation_id"`
-	ReferencedTweet    *DMReferencedTweet  `json:"referenced_tweet,omitempty"`
-	MediaKeys          []string            `json:"media_keys,omitempty"`
-	Attachments        *DMAttachments      `json:"attachments,omitempty"`
+	ID               string             `json:"id"`
+	Text             string             `json:"text,omitempty"`
+	EventType        string             `json:"event_type"`
+	CreatedAt        time.Time          `json:"created_at,omitempty"`
+	SenderID         string             `json:"sender_id,omitempty"`
+	DMConversationID string             `json:"dm_conversation_id"`
+	ReferencedTweet  *DMReferencedTweet `json:"referenced_tweets,omitempty"`
+	MediaKeys        []string           `json:"media_keys,omitempty"`
+	Attachments      *DMAttachments     `json:"attachments,omitempty"`
 }
 
 // DMReferencedTweet represents a referenced tweet in a DM
@@ -36,25 +36,25 @@ type DMAttachments struct {
 
 // DMConversation represents a DM conversation
 type DMConversation struct {
-	ID              string    `json:"id"`
-	ParticipantIDs  []string  `json:"participant_ids,omitempty"`
-	CreatedAt       time.Time `json:"created_at,omitempty"`
+	ID             string    `json:"id"`
+	ParticipantIDs []string  `json:"participant_ids,omitempty"`
+	CreatedAt      time.Time `json:"created_at,omitempty"`
 }
 
 // DMEventResponse represents the response when fetching DM events
 type DMEventResponse struct {
-	Data      []DMEvent       `json:"data,omitempty"`
-	Includes  *DMIncludes     `json:"includes,omitempty"`
-	Meta      *DMEventMeta    `json:"meta,omitempty"`
-	RateLimit *RateLimit      `json:"-"`
+	Data      []DMEvent    `json:"data,omitempty"`
+	Includes  *DMIncludes  `json:"includes,omitempty"`
+	Meta      *DMEventMeta `json:"meta,omitempty"`
+	RateLimit *RateLimit   `json:"-"`
 }
 
 // DMConversationResponse represents the response when fetching DM conversations
 type DMConversationResponse struct {
-	Data      []DMConversation `json:"data,omitempty"`
-	Includes  *DMIncludes      `json:"includes,omitempty"`
+	Data      []DMConversation    `json:"data,omitempty"`
+	Includes  *DMIncludes         `json:"includes,omitempty"`
 	Meta      *DMConversationMeta `json:"meta,omitempty"`
-	RateLimit *RateLimit       `json:"-"`
+	RateLimit *RateLimit          `json:"-"`
 }
 
 // DMIncludes represents the includes in DM responses

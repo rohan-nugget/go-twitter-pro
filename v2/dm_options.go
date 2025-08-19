@@ -16,9 +16,11 @@ const (
 	DMEventFieldCreatedAt        DMEventField = "created_at"
 	DMEventFieldSenderID         DMEventField = "sender_id"
 	DMEventFieldDMConversationID DMEventField = "dm_conversation_id"
-	DMEventFieldReferencedTweet  DMEventField = "referenced_tweet"
+	DMEventFieldReferencedTweet  DMEventField = "referenced_tweets"
 	DMEventFieldMediaKeys        DMEventField = "media_keys"
 	DMEventFieldAttachments      DMEventField = "attachments"
+	DMEventFieldEntities         DMEventField = "entities"
+	DMEventFieldParticipantIDs   DMEventField = "participant_ids"
 )
 
 // DMConversationField represents the fields that can be requested for DM conversations

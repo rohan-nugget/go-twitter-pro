@@ -32,6 +32,10 @@ const (
 	ExpansionInvitedUserIDs Expansion = "invited_user_ids"
 	// ExpansionHostIDs returns the host ids
 	ExpansionHostIDs Expansion = "host_ids"
+	// ExpansionSenderID returns a user object representing the DM sender
+	ExpansionSenderID Expansion = "sender_id" // for dms
+	// ExpansionParticipantIDs returns user objects for DM conversation participants
+	ExpansionParticipantIDs Expansion = "participant_ids" // for dm conversations
 )
 
 func expansionStringArray(arr []Expansion) []string {
