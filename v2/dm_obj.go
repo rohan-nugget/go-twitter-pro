@@ -115,3 +115,21 @@ type SendDMData struct {
 	DMEventID        string `json:"dm_event_id"`
 	DMConversationID string `json:"dm_conversation_id"`
 }
+
+// SendDMByParticipantRequest represents a request to send a DM to a single participant
+type SendDMByParticipantRequest struct {
+	Text    string `json:"text,omitempty"`
+	MediaID string `json:"media_id,omitempty"`
+}
+
+// SendDMByParticipantResponse represents the response when sending a DM by participant ID
+type SendDMByParticipantResponse struct {
+	Data      *SendDMByParticipantData `json:"data,omitempty"`
+	RateLimit *RateLimit               `json:"-"`
+}
+
+// SendDMByParticipantData represents the data returned when sending a DM by participant ID
+type SendDMByParticipantData struct {
+	DMEventID        string `json:"dm_event_id"`
+	DMConversationID string `json:"dm_conversation_id"`
+}

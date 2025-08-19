@@ -59,6 +59,7 @@ const (
 	dmEventsEndpoint                              endpoint = "2/dm_events"
 	dmConversationEventsEndpoint                  endpoint = "2/dm_conversations/{id}/dm_events"
 	dmConversationCreateEndpoint                  endpoint = "2/dm_conversations"
+	dmMessageByParticipantEndpoint                endpoint = "2/dm_conversations/by/participant_id/{participant_id}/messages"
 
 	idTag           = "{id}"
 	participantTag  = "{participant_id}"

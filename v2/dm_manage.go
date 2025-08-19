@@ -337,6 +337,60 @@ func (c *Client) SendDM(ctx context.Context, conversationID string, req SendDMRe
 	return respBody, nil
 }
 
+// SendDMByParticipantID sends a DM directly to a participant by their ID
+func (c *Client) SendDMByParticipantID(ctx context.Context, participantID string, req SendDMByParticipantRequest) (*SendDMByParticipantResponse, error) {
+	if err := req.validate(); err != nil {
+		return nil, err
+	}
+	
+	body, err := json.Marshal(req)
+	if err != nil {
+		return nil, fmt.Errorf("send dm by participant marshal error: %w", err)
+	}
+	
+	ep := dmMessageByParticipantEndpoint.urlParticipantID(c.Host, participantID)
+	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, ep, bytes.NewReader(body))
+	if err != nil {
+		return nil, fmt.Errorf("send dm by participant request: %w", err)
+	}
+	
+	httpReq.Header.Set("Content-Type", "application/json")
+	httpReq.Header.Set("Accept", "application/json")
+	c.Authorizer.Add(httpReq)
+	
+	resp, err := c.Client.Do(httpReq)
+	if err != nil {
+		return nil, fmt.Errorf("send dm by participant response: %w", err)
+	}
+	defer resp.Body.Close()
+	
+	decoder := json.NewDecoder(resp.Body)
+	rl := rateFromHeader(resp.Header)
+	
+	if resp.StatusCode != http.StatusCreated {
+		e := &ErrorResponse{}
+		if err := decoder.Decode(e); err != nil {
+			return nil, &HTTPError{
+				Status:     resp.Status,
+				StatusCode: resp.StatusCode,
+				URL:        resp.Request.URL.String(),
+				RateLimit:  rl,
+			}
+		}
+		e.StatusCode = resp.StatusCode
+		e.RateLimit = rl
+		return nil, e
+	}
+	
+	respBody := &SendDMByParticipantResponse{}
+	if err := decoder.Decode(respBody); err != nil {
+		return nil, fmt.Errorf("send dm by participant decode: %w", err)
+	}
+	respBody.RateLimit = rl
+	
+	return respBody, nil
+}
+
 // validate validates the CreateDMConversationRequest
 func (r CreateDMConversationRequest) validate() error {
 	if len(r.ParticipantIDs) == 0 {
@@ -352,6 +406,14 @@ func (r CreateDMConversationRequest) validate() error {
 func (r SendDMRequest) validate() error {
 	if r.Text == "" && r.MediaID == "" {
 		return fmt.Errorf("send dm: either text or media ID is required: %w", ErrParameter)
+	}
+	return nil
+}
+
+// validate validates the SendDMByParticipantRequest
+func (r SendDMByParticipantRequest) validate() error {
+	if r.Text == "" && r.MediaID == "" {
+		return fmt.Errorf("send dm by participant: either text or media ID is required: %w", ErrParameter)
 	}
 	return nil
 }

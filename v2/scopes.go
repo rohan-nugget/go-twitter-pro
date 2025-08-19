@@ -42,6 +42,10 @@ const (
 	ScopeBookmarkRead   = "bookmark.read"    // Read bookmarked Tweets
 	ScopeBookmarkWrite  = "bookmark.write"   // Bookmark and remove bookmarks
 	
+	// Direct Message Scopes
+	ScopeDMRead         = "dm.read"          // Read Direct Messages
+	ScopeDMWrite        = "dm.write"         // Send and manage Direct Messages
+	
 	// Offline Access
 	ScopeOfflineAccess  = "offline.access"   // Maintain access when user not present
 )
@@ -59,6 +63,7 @@ var (
 		ScopeMuteRead,
 		ScopeSpaceRead,
 		ScopeBookmarkRead,
+		ScopeDMRead,
 	}
 	
 	// WriteScopes - All write permissions (includes reads where necessary)
@@ -80,6 +85,8 @@ var (
 		ScopeMuteWrite,
 		ScopeBookmarkRead,
 		ScopeBookmarkWrite,
+		ScopeDMRead,
+		ScopeDMWrite,
 	}
 	
 	// AllScopes - All available scopes including moderation and offline access
@@ -103,6 +110,8 @@ var (
 		ScopeSpaceRead,
 		ScopeBookmarkRead,
 		ScopeBookmarkWrite,
+		ScopeDMRead,
+		ScopeDMWrite,
 		ScopeOfflineAccess,
 	}
 	

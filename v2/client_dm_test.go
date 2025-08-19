@@ -560,3 +560,135 @@ func TestSendDMRequest_validate(t *testing.T) {
 		})
 	}
 }
+
+func TestClient_SendDMByParticipantID(t *testing.T) {
+	type fields struct {
+		Authorizer Authorizer
+		Client     *http.Client
+		Host       string
+	}
+	type args struct {
+		participantID string
+		req           SendDMByParticipantRequest
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *SendDMByParticipantResponse
+		wantErr bool
+	}{
+		{
+			name: "Success - Send DM by Participant ID",
+			fields: fields{
+				Authorizer: &mockAuth{},
+				Host:       "https://www.test.com",
+				Client: mockHTTPClient(func(req *http.Request) *http.Response {
+					if req.Method != http.MethodPost {
+						log.Panicf("the method is not correct %s %s", req.Method, http.MethodPost)
+					}
+					if !strings.Contains(req.URL.String(), "dm_conversations/by/participant_id") {
+						log.Panicf("the url is not correct %s", req.URL.String())
+					}
+					body := `{
+						"data": {
+							"dm_event_id": "29515892301193216-1697637602605010945-29515892301193216",
+							"dm_conversation_id": "29515892301193216-1697637602605010945"
+						}
+					}`
+					return &http.Response{
+						StatusCode: http.StatusCreated,
+						Body:       io.NopCloser(strings.NewReader(body)),
+						Header: func() http.Header {
+							h := http.Header{}
+							h.Set("Content-Type", "application/json")
+							return h
+						}(),
+					}
+				}),
+			},
+			args: args{
+				participantID: "1697637602605010945",
+				req: SendDMByParticipantRequest{
+					Text: "Direct message to participant",
+				},
+			},
+			want: &SendDMByParticipantResponse{
+				Data: &SendDMByParticipantData{
+					DMEventID:        "29515892301193216-1697637602605010945-29515892301193216",
+					DMConversationID: "29515892301193216-1697637602605010945",
+				},
+			},
+			wantErr: false,
+		},
+		{
+			name: "Error - Missing Text and MediaID",
+			fields: fields{
+				Authorizer: &mockAuth{},
+				Host:       "https://www.test.com",
+				Client:     mockHTTPClient(func(req *http.Request) *http.Response { return nil }),
+			},
+			args: args{
+				participantID: "1697637602605010945",
+				req:           SendDMByParticipantRequest{}, // Empty request
+			},
+			want:    nil,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			c := &Client{
+				Authorizer: tt.fields.Authorizer,
+				Client:     tt.fields.Client,
+				Host:       tt.fields.Host,
+			}
+			got, err := c.SendDMByParticipantID(context.Background(), tt.args.participantID, tt.args.req)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Client.SendDMByParticipantID() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if tt.wantErr {
+				return
+			}
+			if !reflect.DeepEqual(got.Data, tt.want.Data) {
+				t.Errorf("Client.SendDMByParticipantID() = %v, want %v", got.Data, tt.want.Data)
+			}
+		})
+	}
+}
+
+func TestSendDMByParticipantRequest_validate(t *testing.T) {
+	tests := []struct {
+		name    string
+		r       SendDMByParticipantRequest
+		wantErr bool
+	}{
+		{
+			name: "Valid - With Text",
+			r: SendDMByParticipantRequest{
+				Text: "Hello World!",
+			},
+			wantErr: false,
+		},
+		{
+			name: "Valid - With MediaID",
+			r: SendDMByParticipantRequest{
+				MediaID: "media123",
+			},
+			wantErr: false,
+		},
+		{
+			name: "Invalid - No Text or MediaID",
+			r:       SendDMByParticipantRequest{},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := tt.r.validate(); (err != nil) != tt.wantErr {
+				t.Errorf("SendDMByParticipantRequest.validate() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
