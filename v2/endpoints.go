@@ -58,11 +58,12 @@ const (
 	dmConversationsByParticipantEndpoint          endpoint = "2/dm_conversations/by/participant_id/{participant_id}"
 	dmEventsEndpoint                              endpoint = "2/dm_events"
 	dmConversationEventsEndpoint                  endpoint = "2/dm_conversations/{id}/dm_events"
+	dmMessageByConversationEndpoint               endpoint = "2/dm_conversations/{id}/messages"
 	dmConversationCreateEndpoint                  endpoint = "2/dm_conversations"
-	dmMessageByParticipantEndpoint                endpoint = "2/dm_conversations/by/participant_id/{participant_id}/messages"
+	dmMessageByParticipantEndpoint                endpoint = "2/dm_conversations/with/{participant_id}/messages"
 
-	idTag           = "{id}"
-	participantTag  = "{participant_id}"
+	idTag          = "{id}"
+	participantTag = "{participant_id}"
 )
 
 func (e endpoint) url(host string) string {

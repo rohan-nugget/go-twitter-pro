@@ -294,7 +294,7 @@ func (c *Client) SendDM(ctx context.Context, conversationID string, req SendDMRe
 		return nil, fmt.Errorf("send dm marshal error: %w", err)
 	}
 	
-	ep := dmConversationEventsEndpoint.urlID(c.Host, conversationID)
+	ep := dmMessageByConversationEndpoint.urlID(c.Host, conversationID)
 	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, ep, bytes.NewReader(body))
 	if err != nil {
 		return nil, fmt.Errorf("send dm request: %w", err)
