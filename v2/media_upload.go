@@ -8,6 +8,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"strings"
 )
 
 // MediaCategory represents the media use-case category
@@ -77,6 +78,7 @@ type MediaUploadRequest struct {
 	Shared           bool            `json:"shared,omitempty"`
 }
 
+
 // MediaUploadProcessingInfo represents processing information for uploaded media
 type MediaUploadProcessingInfo struct {
 	CheckAfterSecs   int             `json:"check_after_secs,omitempty"`
@@ -113,6 +115,23 @@ func (c *Client) UploadMedia(ctx context.Context, req MediaUploadRequest) (*Medi
 	}
 
 	ep := mediaUploadEndpoint.url(c.Host)
+	
+	// Add required query parameters
+	if req.MediaType != "" {
+		if strings.Contains(ep, "?") {
+			ep += "&media_type=" + string(req.MediaType)
+		} else {
+			ep += "?media_type=" + string(req.MediaType)
+		}
+	}
+	
+	// Add command parameter for upload initialization
+	if strings.Contains(ep, "?") {
+		ep += "&command=INIT"
+	} else {
+		ep += "?command=INIT"
+	}
+	
 	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, ep, body)
 	if err != nil {
 		return nil, fmt.Errorf("media upload request: %w", err)
