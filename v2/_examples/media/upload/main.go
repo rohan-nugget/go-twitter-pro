@@ -11,7 +11,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	twitter "github.com/g8rswimmer/go-twitter/v2"
+	twitter "github.com/rohan-nugget/go-twitter-pro/v2"
 )
 
 type authorize struct {

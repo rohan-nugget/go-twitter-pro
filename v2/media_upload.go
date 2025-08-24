@@ -8,7 +8,6 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
-	"strings"
 )
 
 // MediaCategory represents the media use-case category
@@ -116,22 +115,6 @@ func (c *Client) UploadMedia(ctx context.Context, req MediaUploadRequest) (*Medi
 
 	ep := mediaUploadEndpoint.url(c.Host)
 	
-	// Add required query parameters
-	if req.MediaType != "" {
-		if strings.Contains(ep, "?") {
-			ep += "&media_type=" + string(req.MediaType)
-		} else {
-			ep += "?media_type=" + string(req.MediaType)
-		}
-	}
-	
-	// Add command parameter for upload initialization
-	if strings.Contains(ep, "?") {
-		ep += "&command=INIT"
-	} else {
-		ep += "?command=INIT"
-	}
-	
 	httpReq, err := http.NewRequestWithContext(ctx, http.MethodPost, ep, body)
 	if err != nil {
 		return nil, fmt.Errorf("media upload request: %w", err)
@@ -205,12 +188,7 @@ func createMediaUploadForm(req MediaUploadRequest) (*bytes.Buffer, string, error
 		return nil, "", fmt.Errorf("write media_category field: %w", err)
 	}
 
-	// Add optional fields
-	if req.MediaType != "" {
-		if err := writer.WriteField("media_type", string(req.MediaType)); err != nil {
-			return nil, "", fmt.Errorf("write media_type field: %w", err)
-		}
-	}
+	// Note: media_type is not sent as form field - API detects it from the file
 
 	if req.Shared {
 		if err := writer.WriteField("shared", "true"); err != nil {
