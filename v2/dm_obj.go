@@ -98,10 +98,15 @@ type CreateDMConversationData struct {
 	DMEventID        string `json:"dm_event_id"`
 }
 
+// DMAttachment represents a media attachment in a DM
+type DMAttachment struct {
+	MediaID string `json:"media_id"`
+}
+
 // SendDMRequest represents a request to send a DM to an existing conversation
 type SendDMRequest struct {
-	Text    string `json:"text,omitempty"`
-	MediaID string `json:"media_id,omitempty"`
+	Text        string          `json:"text,omitempty"`
+	Attachments []*DMAttachment `json:"attachments,omitempty"`
 }
 
 // SendDMResponse represents the response when sending a DM
@@ -118,8 +123,8 @@ type SendDMData struct {
 
 // SendDMByParticipantRequest represents a request to send a DM to a single participant
 type SendDMByParticipantRequest struct {
-	Text    string `json:"text,omitempty"`
-	MediaID string `json:"media_id,omitempty"`
+	Text        string          `json:"text,omitempty"`
+	Attachments []*DMAttachment `json:"attachments,omitempty"`
 }
 
 // SendDMByParticipantResponse represents the response when sending a DM by participant ID

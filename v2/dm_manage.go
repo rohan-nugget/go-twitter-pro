@@ -404,16 +404,22 @@ func (r CreateDMConversationRequest) validate() error {
 
 // validate validates the SendDMRequest
 func (r SendDMRequest) validate() error {
-	if r.Text == "" && r.MediaID == "" {
-		return fmt.Errorf("send dm: either text or media ID is required: %w", ErrParameter)
+	hasText := r.Text != ""
+	hasAttachments := len(r.Attachments) > 0
+	
+	if !hasText && !hasAttachments {
+		return fmt.Errorf("send dm: either text or attachments are required: %w", ErrParameter)
 	}
 	return nil
 }
 
 // validate validates the SendDMByParticipantRequest
 func (r SendDMByParticipantRequest) validate() error {
-	if r.Text == "" && r.MediaID == "" {
-		return fmt.Errorf("send dm by participant: either text or media ID is required: %w", ErrParameter)
+	hasText := r.Text != ""
+	hasAttachments := len(r.Attachments) > 0
+	
+	if !hasText && !hasAttachments {
+		return fmt.Errorf("send dm by participant: either text or attachments are required: %w", ErrParameter)
 	}
 	return nil
 }
